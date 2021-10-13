@@ -1,4 +1,4 @@
-NAME = skeleton
+NAME = askii
 
 # Compiler and linker
 CXX = clang++
@@ -29,7 +29,7 @@ OBJS = $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 DEPS = $(OBJS:.o=.d)
 
 # Flags
-CXXFLAGS = -Wall -Wextra -Werror -Wpedantic -std=c++98 $(INCS:%=-I%)
+CXXFLAGS = -Wall -Wextra -Werror -Wpedantic -std=c++17 $(INCS:%=-I%)
 DFLAGS = -MT $@ -MMD -MP -MF $(OBJDIR)/$*.d
 LDFLAGS = $(LIBDIRS:%=-L%)
 LDLIBS = $(LIBARS:lib%.a=-l%)
