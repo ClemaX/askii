@@ -39,6 +39,8 @@ protected:
 		b = color.b;
 		mode = color.mode;
 		option = color.option;
+
+		return *this;
 	}
 
 	void draw(ostream &os) const

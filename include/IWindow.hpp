@@ -20,25 +20,32 @@ ostream &operator<<(ostream &os, const IDrawable &drawable)
 	return os;
 }
 
-class Window:			public ASizedDrawable
+class Window:			public Image
 {
 private:
-	Image		image;
+	vector<IDrawable*>	drawables;
 
 public:
 	Window(unsigned w, unsigned h)
-		:	ASizedDrawable(w, h), image(dim)
+		:	Image(w, h), drawables()
 	{ }
 
-	void	resize(unsigned w, unsigned h)
+	Window(const Vector2D &dim)
+		:	Image(dim), drawables()
+	{ }
+/*
+	void	renderDrawable(const IDrawable *drawable)
 	{
-		ASizedDrawable::resize(w, h);
-		image.resize(w, h);
-	}
 
-	void	draw(ostream &os) const
+	} */
+/*
+	void	render()
 	{
-		image.draw(os);
-	}
+		for (const IDrawable *drawable : drawables) { renderDrawable(drawable); }
+	} */
+
+
+	// TODO: operator=
+	// TODO: copy constructor
 };
 

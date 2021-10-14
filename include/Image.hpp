@@ -4,31 +4,55 @@
 
 #include <Vector2D.hpp>
 #include <IDrawable.hpp>
+#include <ASizedDrawable.hpp>
+#include <APositionedDrawable.hpp>
 #include <Pixel.hpp>
 
 using std::vector;
 
-class Image: public IDrawable, public Vector2D
+typedef vector<Pixel>	pixel_container;
+
+class Image: public ASizedDrawable, public APositionedDrawable
 {
-	vector<Pixel>	pixels;
+	pixel_container	pixels;
 
 public:
-	Image(unsigned w, unsigned h)
-		:	Vector2D(w, h), pixels(x * y)
+	Image(unsigned width, unsigned height)
+		:	ASizedDrawable(width, height), pixels(dim.x * dim.y)
 	{ }
 
-	Image(const Vector2D &dim)
-		:	Vector2D(dim), pixels(x * y)
-	{}
+	Image(const Vector2D &dimensions)
+		:	ASizedDrawable(dimensions), pixels(dim.x * dim.y)
+	{ }
 
 	virtual ~Image()
 	{ }
 
 	void	resize(unsigned newW, unsigned newH)
 	{
-		x = newW;
-		y = newH;
-		pixels.resize(x * y);
+		dim.x = newW;
+		dim.y = newH;
+		pixels.resize(newW * newH);
+	}
+
+	void	renderImage(const Image &img)
+	{
+		Vector2D				pos(img.pos);
+		Vector2D				end(min(pos, img.dim));
+
+		for (; pos.y < dim.y; y++)
+		{
+			for (; pos.x < dim.x; x++)
+			{
+				pixels[pos] = img[pos]
+			}
+		}
+
+	}
+
+	void	render()
+	{
+
 	}
 
 	void	draw(ostream &os) const
@@ -36,8 +60,16 @@ public:
 		for (const Pixel &pixel : pixels) { pixel.draw(os); }
 	}
 
-	void	fill(AColor *color, const char *content)
+	void	fill(AColor *color, const char *content = NULL)
 	{
-		for (Pixel &pixel : pixels) { pixel.setColor(color); }
+		if (content)
+			for (Pixel &pixel : pixels) { pixel.setColor(color); pixel.setContent(content); }
+		else
+			for (Pixel &pixel : pixels) { pixel.setColor(color); }
 	}
+
+
+	const Pixel	&operator[](Vector2D const &pos)
+	{ return pixels[pos.y * dim.x + pos.x]; }
+
 };
