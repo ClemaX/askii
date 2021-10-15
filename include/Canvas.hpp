@@ -5,6 +5,7 @@
 #include <ACanvas.hpp>
 #include <Vector2D.hpp>
 #include <IDrawable.hpp>
+#include <HalfPixel.hpp>
 #include <Pixel.hpp>
 
 using std::vector;
@@ -18,36 +19,46 @@ public:
 
 protected:
 	pixel_container	pixels;
+	HalfPixel		padding;
+	bool			shouldPad;
 
 public:
 	Canvas(unsigned width, unsigned height)
-		:	AImage(width, height), pixels(dim.x * dim.y)
+		:	AImage(width, height), pixels(dim.x * dim.y), shouldPad(width % pixel_t::size)
 	{ }
 
 	Canvas(const Vector2D &dimensions)
-		:	AImage(dimensions), pixels(dim.x * dim.y)
+		:	AImage(dimensions), pixels(dim.x * dim.y), shouldPad(dim.x % pixel_t::size)
 	{ }
 
 	~Canvas()
 	{ }
 
-	// TODO: Pixel stream that optimizes sequential output directly
+
 	void	draw(ostream &os) const
 	{
-		AColor	*currentColor = NULL;
+		const AColor	*currentColor = NULL;
+		Vector2D		pos;
 
-		for (const Pixel &pixel : pixels) {
-			if (currentColor == pixel.getColor())
-				pixel.drawContent(os);
-			else
-				pixel.draw(os);
+		for (; pos.y < dim.y; pos.y++) {
+			for (pos.x = 0; pos.x < dim.x; pos.x++)
+			{
+				if (currentColor == operator[](pos).getColor())
+					operator[](pos).drawContent(os);
+				else
+					operator[](pos).draw(os);
+			}
+			if (shouldPad)
+				padding.draw(os);
 		}
+		os.flush();
 	}
 
 	void	resize(unsigned newW, unsigned newH)
 	{
 		AImage::resize(newW, newH);
 		pixels.resize(dim.x * dim.y);
+		shouldPad = (newW % pixel_t::size);
 	}
 
 	void	fill(AColor *color, char content = '\0')

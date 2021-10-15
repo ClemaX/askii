@@ -18,33 +18,15 @@ class Window:			public Canvas<Pixel>
 {
 private:
 	vector<const AImage*>	images;
-	pixel_container			padding;
 
 public:
 	Window(unsigned w, unsigned h)
-		:	AImage(w,h), Canvas(w, h), images()
+		:	AImage(w,h), Canvas(w, h)
 	{ }
 
 	Window(const Vector2D &dim)
-		:	AImage(dim), Canvas(dim), images()
+		:	AImage(dim), Canvas(dim)
 	{ }
-
-	void	draw(ostream &os) const
-	{
-		const AColor	*currentColor = NULL;
-		Vector2D		pos;
-
-		for (; pos.y < dim.y; pos.y++) {
-			for (pos.x = 0; pos.x < dim.x; pos.x++)
-			{
-				if (currentColor == operator[](pos).getColor())
-					operator[](pos).drawContent(os);
-				else
-					operator[](pos).draw(os);
-			}
-		}
-		os.flush();
-	}
 
 	void	render()
 	{
