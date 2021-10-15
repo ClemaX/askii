@@ -1,28 +1,7 @@
 #include <Window.hpp>
 
 #include <Slope.hpp>
-#include <Canvas.hpp>
-
-class	Player:	public Canvas<>
-{
-	const Slope	&slope;
-
-
-public:
-	Player(const Slope &slope, unsigned posX)
-		:	AImage(2, 2), Canvas(2, 2), slope(slope)
-	{ }
-
-/* 	void	render()
-	{
-		int	slopeHeight = slope.getHeight(pos.x);
-
-		if (pos.y + 1 < slopeHeight)
-			pos.y++;
-		if (pos.y > slopeHeight)
-			pos.y = slopeHeight;
-	} */
-};
+#include <Player.hpp>
 
 class	GameWindow:	public Window
 {
@@ -47,14 +26,14 @@ public:
 	void	render()
 	{
 		slope.render();
-		//player.render();
+		player.render();
 		Window::render();
 	}
 
 	void	resize(unsigned width, unsigned height)
 	{
 		slope.resize(width, height);
-		player.move(2, 0);
+		player.move(width / 4, 0);
 		Window::resize(width, height);
 	}
 };

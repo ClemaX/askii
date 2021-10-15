@@ -1,3 +1,5 @@
+#pragma once
+
 #include <AImage.hpp>
 #include <cmath>
 #include <BackgroundColor.hpp>
