@@ -1,53 +1,60 @@
 #pragma once
 
+#include <iomanip>
+
 #include <IPixel.hpp>
 #include <AColor.hpp>
-
 
 #include <BackgroundColor.hpp>
 
 template <u_char Size = 2>
-class APixel:			public IPixel
+class APixel : public IPixel
 {
 private:
-	const AColor	*color;
-	char			content[Size];
+	const AColor *color;
+	char content[Size];
 
 public:
-	static const u_char	size = Size;
+	static const u_char size = Size;
 
 	APixel(const AColor *color = NULL, char contentChar = ' ')
-		:	color(color)
+		: color(color)
 	{
 		setContent(contentChar);
 	}
 
-	virtual ~APixel() {};
-/*
-	APixel()
-		:	color(NULL), content("test")
-	{} */
+	virtual ~APixel(){};
 
-	void	setContent(char contentChar)
-	{ for (u_char i = 0; i < size; i++) content[i] = contentChar; }
+	void setContent(char contentChar)
+	{
+		for (u_char i = 0; i < size; i++)
+			content[i] = contentChar;
+	}
 
-	void	setColor(AColor *newColor)
-	{ color = newColor; }
+	void setColor(AColor *newColor)
+	{
+		color = newColor;
+	}
 
-	const AColor	*getColor() const
-	{ return color; }
+	const AColor *getColor() const
+	{
+		return color;
+	}
 
-	void	clearColor()
-	{ color = NULL; }
+	void clearColor()
+	{
+		color = NULL;
+	}
 
 	void draw(ostream &os) const
 	{
 		if (color != NULL)
-			os << *color << content;
-		else
-			os << content;
+			os << *color;
+		os.write(content, size);
 	}
 
-	void	drawContent(ostream &os) const
-	{ os << content; }
+	void drawContent(ostream &os) const
+	{
+		os.write(content, size);
+	}
 };
