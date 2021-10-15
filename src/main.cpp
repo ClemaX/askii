@@ -5,7 +5,7 @@
 #include <iostream>
 #include <ctime>
 
-#include <IWindow.hpp>
+#include <GameWindow.hpp>
 
 #ifdef STDOUT_FILENO
 # define WINDOW_FILENO STDOUT_FILENO
@@ -15,7 +15,7 @@
 
 struct winsize size;
 
-Window	window(0,0);
+GameWindow	window(0,0);
 
 void	onResize(int sig)
 {
@@ -38,6 +38,7 @@ int	main()
 	while (true)
 	{
 		clearScreen();
+		window.render();
 		window.draw(std::cout);
 		usleep(1000 * 1000);
 	}

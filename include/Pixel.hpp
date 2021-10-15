@@ -1,45 +1,11 @@
 #pragma once
 
-#include <IPixel.hpp>
-#include <AColor.hpp>
+#include <APixel.hpp>
 
-class Pixel:			public IPixel
+class Pixel:	public APixel<2>
 {
-private:
-	const AColor	*color;
-	const char		*content;
-
 public:
-	Pixel()
-		:	color(NULL), content("  ")
-	{}
-
-	virtual ~Pixel() {};
-/*
-	Pixel()
-		:	color(NULL), content("test")
-	{} */
-
-	void	setContent(const char *newContent)
-	{
-		content = newContent;
-	}
-
-	void	setColor(AColor *newColor)
-	{
-		color = newColor;
-	}
-
-	void	clearColor()
-	{
-		color = NULL;
-	}
-
-	void draw(ostream &os) const
-	{
-		if (color != NULL)
-			os << *color << content;
-		else
-			os << content;
-	}
+	Pixel(const AColor *color = NULL, char contentChar = ' ')
+		:	APixel<2>(color, contentChar)
+	{ }
 };

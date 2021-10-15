@@ -2,7 +2,7 @@
 
 #include <IDrawable.hpp>
 
-class AColor:		public IDrawable
+class AColor: virtual public IDrawable
 {
 public:
 	typedef enum
@@ -24,8 +24,8 @@ private:
 	Option option;
 
 protected:
-	AColor(uint8_t r, uint8_t g, uint8_t b, Mode mode, Option option = DEFAULT)
-		:	r(r), g(g), b(b), mode(mode), option(option)
+	AColor(uint8_t red, uint8_t green, uint8_t blue, Mode mode, Option option = DEFAULT)
+		:	r(red % 256), g(green % 256), b(blue % 256), mode(mode), option(option)
 	{}
 
 	AColor(const AColor &color)
@@ -41,6 +41,14 @@ protected:
 		option = color.option;
 
 		return *this;
+	}
+
+public:
+	void	setColor(uint8_t red, uint8_t green, uint8_t blue)
+	{
+		r = red % 256;
+		g = green % 256;
+		b = blue % 256;
 	}
 
 	void draw(ostream &os) const

@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-class APositionedDrawable:	virtual public IDrawable
+class APositionedDrawable: virtual public IDrawable
 {
 protected:
 	Vector2D	pos;
@@ -24,7 +24,7 @@ public:
 		pos.x = x;
 		pos.y = y;
 
-		std::cout << "positioning to " << x << ' ' << y << std::endl;
+		std::cerr << "positioning to " << x << ' ' << y << std::endl;
 	}
 
 	virtual Vector2D const&	getPos() const

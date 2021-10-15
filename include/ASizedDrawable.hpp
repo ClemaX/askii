@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-class ASizedDrawable:	public IDrawable
+class ASizedDrawable:	virtual public IDrawable
 {
 protected:
 	Vector2D	dim;
@@ -19,14 +19,17 @@ public:
 		:	dim(dim)
 	{ }
 
+	virtual ~ASizedDrawable()
+	{ }
+
 	virtual void	resize(unsigned width, unsigned height)
 	{
 		dim.x = width;
 		dim.y = height;
 
-		std::cout << "resizing to " << width << ' ' << height << std::endl;
+		std::cerr << "resizing to " << width << ' ' << height << std::endl;
 	}
 
-	virtual ~ASizedDrawable()
-	{ }
+	virtual Vector2D const&	getDim() const
+	{ return dim; }
 };
