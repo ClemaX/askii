@@ -14,7 +14,7 @@ using std::list;
 
 // Pixel Color: '\e[48;2;RRR;GGG;BBBm  '
 
-class Window:			public Canvas
+class Window:			public Canvas<Pixel>
 {
 private:
 	vector<const AImage*>	images;

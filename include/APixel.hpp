@@ -6,7 +6,7 @@
 
 #include <BackgroundColor.hpp>
 
-template <unsigned char Size = 2>
+template <u_char Size = 2>
 class APixel:			public IPixel
 {
 private:
@@ -14,7 +14,7 @@ private:
 	char			content[Size];
 
 public:
-	static const unsigned char	size = Size;
+	static const u_char	size = Size;
 
 	APixel(const AColor *color = NULL, char contentChar = ' ')
 		:	color(color)
@@ -29,7 +29,7 @@ public:
 	{} */
 
 	void	setContent(char contentChar)
-	{ for (unsigned char i = 0; i < size; i++) content[i] = contentChar; }
+	{ for (u_char i = 0; i < size; i++) content[i] = contentChar; }
 
 	void	setColor(AColor *newColor)
 	{ color = newColor; }

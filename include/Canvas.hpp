@@ -9,10 +9,13 @@
 
 using std::vector;
 
-typedef vector<Pixel>	pixel_container;
-
+template<typename P = Pixel>
 class Canvas: public ACanvas
 {
+public:
+	typedef P				pixel_t;
+	typedef vector<pixel_t>	pixel_container;
+
 protected:
 	pixel_container	pixels;
 
