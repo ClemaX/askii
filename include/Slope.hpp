@@ -1,31 +1,56 @@
 #include <AImage.hpp>
-
+#include <cmath>
 #include <BackgroundColor.hpp>
 #include <ForegroundColor.hpp>
 
 class Slope:	virtual public AImage
 {
+	vector<int>		yBuff;
 	Pixel			bg;
 	Pixel			fg;
 
 	unsigned		x;
-	float			dy;
+	unsigned		offset;
+	float			slope;
+	float			bump;
+	float			bump_dist;
 
 public:
-	Slope(unsigned width, unsigned height, float dy = 1.0)
-		:	AImage(width, height), bg(new BackgroundColor(0, 12, 25)), fg(new BackgroundColor(255, 255, 255)), x(0), dy(dy)
+	Slope(unsigned width, unsigned height, unsigned offset = 5, float slope = 0.6, float bump = 4.0, float	bump_dist = 60.0)
+		:	AImage(width, height), yBuff(width), bg(new BackgroundColor(0, 12, 25)), fg(new BackgroundColor(255, 255, 255)),
+			x(1), offset(offset), slope(slope), bump(bump), bump_dist(bump_dist)
 	{ std::cerr << "Created slope of size " << width << 'x' << height << std::endl; }
 
  	void	seek(int delta)
 	{
+
 		x += delta;
+		bump_dist = 60 * (1/(1+(0.02*x)));
+		bump += 0.0000002*x;
+		if (x > 500)
+			slope = 0.7;
 	}
 
-	const Pixel	&operator[](Vector2D const &pos) const
+	void	render()
 	{
-		int	height = (x + pos.x) * dy;
+		for (int posX = 0; posX < (int)yBuff.size(); posX++)
+		{ yBuff[posX] = (slope * (posX)) + bump * sin((-posX - (float)x)/bump_dist) + offset; }
+	}
 
-		return pos.y < height ? bg : fg;
+	void	resize(uint newW, uint newH)
+	{
+		yBuff.resize(newW);
+		AImage::resize(newW, newH);
+	}
+
+	int		getHeight(int posX) const
+	{
+		return yBuff[posX];
+	}
+
+	const Pixel	&operator[](Vector2D const &position) const
+	{
+		return position.y < yBuff[position.x] ? bg : fg;
 	}
 
 	void	draw(ostream &os) const

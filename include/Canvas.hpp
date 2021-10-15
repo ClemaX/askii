@@ -31,7 +31,7 @@ public:
 		:	AImage(dimensions), pixels(dim.x * dim.y), shouldPad(dim.x % pixel_t::size)
 	{ }
 
-	~Canvas()
+	virtual ~Canvas()
 	{ }
 
 
@@ -74,4 +74,8 @@ public:
 
 	Pixel	&operator[](Vector2D const &pos)
 	{ return pixels[pos.y * dim.x + pos.x]; }
+
+	Pixel	&operator[](unsigned index)
+	{ return pixels[index]; }
+
 };

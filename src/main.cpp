@@ -27,7 +27,20 @@ void	onResize(int sig)
 
 void	clearScreen()
 {
-	std::cout << "\033[H\033[j";
+	std::cout << "\033[H";
+}
+
+void	resetColors()
+{
+	std::cout << "\033[39;49m";
+}
+
+void	onInterrupt(int sig)
+{
+	(void)sig;
+	resetColors();
+	clearScreen();
+	exit(0);
 }
 
 int	main()
@@ -35,12 +48,19 @@ int	main()
 	signal(SIGWINCH, onResize);
 	onResize(SIGWINCH);
 
+
+	signal(SIGINT, onInterrupt);
+
 	while (true)
 	{
 		clearScreen();
 		window.render();
 		window.draw(std::cout);
-		usleep(1000 * 1000);
+		window.seek(1);
+		usleep(1000 * 100);
 	}
+	resetColors();
+	clearScreen();
+
 	return 0;
 }
