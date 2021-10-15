@@ -28,11 +28,6 @@ public:
 	Window(const Vector2D &dim)
 		:	AImage(dim), Canvas(dim), images()
 	{ }
-/*
-	void	renderDrawable(const IDrawable *drawable)
-	{
-
-	} */
 
 	void	draw(ostream &os) const
 	{
@@ -40,19 +35,12 @@ public:
 		Vector2D		pos;
 
 		for (; pos.y < dim.y; pos.y++) {
-			for (; pos.x < dim.x; pos.x++)
+			for (pos.x = 0; pos.x < dim.x; pos.x++)
 			{
 				if (currentColor == operator[](pos).getColor())
 					operator[](pos).drawContent(os);
 				else
 					operator[](pos).draw(os);
-			}
-			for (const Pixel& pixel: padding)
-			{
-				/* if (currentColor == operator[](pos).getColor())
-					operator[](pos).drawContent(os);
-				else
-					operator[](pos).draw(os); */
 			}
 		}
 		os.flush();
