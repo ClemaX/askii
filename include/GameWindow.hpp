@@ -11,9 +11,7 @@ class	Player:	public Canvas<>
 public:
 	Player(const Slope &slope, unsigned posX)
 		:	AImage(2, 2), Canvas(2, 2), slope(slope)
-	{
-		std::cout << "Player posX: " << posX << std::endl;
-	}
+	{ }
 
 /* 	void	render()
 	{

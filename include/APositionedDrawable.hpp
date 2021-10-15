@@ -23,8 +23,6 @@ public:
 	{
 		pos.x = x;
 		pos.y = y;
-
-		std::cerr << "positioning to " << x << ' ' << y << std::endl;
 	}
 
 	virtual Vector2D const&	getPos() const

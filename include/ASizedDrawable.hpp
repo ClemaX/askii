@@ -26,8 +26,6 @@ public:
 	{
 		dim.x = width;
 		dim.y = height;
-
-		std::cerr << "resizing to " << width << ' ' << height << std::endl;
 	}
 
 	virtual Vector2D const&	getDim() const

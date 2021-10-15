@@ -16,10 +16,12 @@ class Slope:	virtual public AImage
 	float			bump_dist;
 
 public:
-	Slope(unsigned width, unsigned height, unsigned offset = 5, float slope = 0.6, float bump = 4.0, float	bump_dist = 60.0)
-		:	AImage(width, height), yBuff(width), bg(new BackgroundColor(0, 12, 25)), fg(new BackgroundColor(255, 255, 255)),
+	Slope(unsigned width, unsigned height,
+		unsigned offset = 5, float slope = 0.6, float bump = 4.0, float	bump_dist = 60.0)
+		:	AImage(width, height), yBuff(width),
+			bg(new BackgroundColor(0, 12, 25)), fg(new BackgroundColor(255, 255, 255)),
 			x(1), offset(offset), slope(slope), bump(bump), bump_dist(bump_dist)
-	{ std::cerr << "Created slope of size " << width << 'x' << height << std::endl; }
+	{ }
 
  	void	seek(int delta)
 	{
