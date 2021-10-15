@@ -1,19 +1,15 @@
 #include <AImage.hpp>
 
-class ACanvas: virtual public AImage
+class	ACanvas:	virtual public AImage
 {
-private:
-	/* data */
 public:
-	//virtual Pixel		&operator[](Vector2D const &pos) = 0;
-
 	virtual Pixel	&operator[](Vector2D const &pos) = 0;
 
-	void				renderImage(const AImage &img)
+	void	renderImage(const AImage &img)
 	{
 		const Vector2D	&begin = img.getPos();
 		const Vector2D	end(min(begin + img.getDim(), dim));
-		const Vector2D	imgBegin(max(img.getPos(), Vector2D(0,0)));
+		const Vector2D	imgBegin(max(img.getPos(), Vector2D(0, 0)) - img.getPos());
 		Vector2D		destPos;
 		Vector2D		imgPos;
 
