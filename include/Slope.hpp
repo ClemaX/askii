@@ -49,7 +49,7 @@ public:
 
 	int		getHeight(int posX) const
 	{
-		return yBuff[posX];
+		return !yBuff.empty() ? yBuff[posX] : 0;
 	}
 
 	const Pixel	&operator[](pos_t const &position) const

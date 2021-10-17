@@ -10,7 +10,7 @@ class	Player:	public Canvas<>
 
 public:
 	Player(const Slope &slope, unsigned posX)
-		:	AImage(2, 2, posX), Canvas(2, 2), slope(slope)
+		:	AImage(2, 2, posX, slope.getHeight(posX)), Canvas(2, 2), slope(slope)
 	{ }
 
 	void	render()

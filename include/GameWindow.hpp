@@ -11,7 +11,8 @@ private:
 
 public:
 	GameWindow(unsigned w, unsigned h)
-		:	AImage(w, h), Window(w, h), slope(w, h), player(slope, 0)
+		:	AImage(w, h), Window(w, h), slope(w, h),
+			player(slope, w / (2 * pixel_t::size))
 	{
 		player[0].setColor(new BackgroundColor(255, 0, 0));
 		pushImage(slope);
@@ -33,7 +34,7 @@ public:
 	void	resize(unsigned width, unsigned height)
 	{
 		slope.resize(width, height);
-		player.move(width / 4, 0);
+		player.move(width / (2 * pixel_t::size), height);
 		Window::resize(width, height);
 	}
 };
