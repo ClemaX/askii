@@ -27,7 +27,7 @@ public:
 		:	AImage(width, height), pixels(dim.x * dim.y), shouldPad(width % pixel_t::size)
 	{ }
 
-	Canvas(const Vector2D &dimensions)
+	Canvas(const dim_t &dimensions)
 		:	AImage(dimensions), pixels(dim.x * dim.y), shouldPad(dim.x % pixel_t::size)
 	{ }
 
@@ -38,7 +38,7 @@ public:
 	void	draw(ostream &os) const
 	{
 		const AColor	*currentColor = NULL;
-		Vector2D		pos;
+		pos_t			pos;
 
 		for (; pos.y < dim.y; pos.y++) {
 			for (pos.x = 0; pos.x < dim.x; pos.x++)
@@ -69,10 +69,10 @@ public:
 			for (Pixel &pixel : pixels) { pixel.setColor(color); }
 	}
 
-	const Pixel	&operator[](Vector2D const &pos) const
+	const Pixel	&operator[](pos_t const &pos) const
 	{ return pixels[pos.y * dim.x + pos.x]; }
 
-	Pixel	&operator[](Vector2D const &pos)
+	Pixel	&operator[](pos_t const &pos)
 	{ return pixels[pos.y * dim.x + pos.x]; }
 
 	Pixel	&operator[](unsigned index)

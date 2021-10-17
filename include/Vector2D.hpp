@@ -1,87 +1,24 @@
 #pragma once
 
-struct Vector2D
+#include <Vector.hpp>
+template <typename T = int>
+struct Vector2D:	public Vector<2, T>
 {
-	int	x;
-	int	y;
+	T	&x;
+	T	&y;
 
 	Vector2D()
-		:	x(0), y(0)
+		:	Vector<2, T>(), x((*this)[0]), y((*this)[1])
 	{ }
 
-	Vector2D(const Vector2D &vec)
-		:	x(vec.x), y(vec.y)
+	~Vector2D()
 	{ }
 
-	Vector2D(int x, int y)
-		:	x(x), y(y)
+	Vector2D(const Vector<2, T> &vec)
+		:	Vector<2, T>(vec), x((*this)[0]), y((*this)[1])
 	{ }
 
-	Vector2D	&operator=(Vector2D const &vec)
-	{
-		x = vec.x;
-		y = vec.y;
-
-		return *this;
-	}
-
-	Vector2D	&operator+=(Vector2D const &vec)
-	{
-		x += vec.x;
-		y += vec.y;
-
-		return *this;
-	}
-
-	Vector2D	operator-=(Vector2D const &vec) const
-	{
-		return Vector2D(x + vec.x, y + vec.y);
-	}
-
-	Vector2D	operator/(Vector2D const &vec) const
-	{
-		return Vector2D(x / vec.x, y / vec.y);
-	}
-
-	Vector2D	operator*(Vector2D const &vec) const
-	{
-		return Vector2D(x * vec.x, y * vec.y);
-	}
-
-	Vector2D	operator+(Vector2D const &vec) const
-	{
-		return Vector2D(x + vec.x, y + vec.y);
-	}
-
-	Vector2D	operator-(Vector2D const &vec) const
-	{
-		return Vector2D(x - vec.x, y - vec.y);
-	}
-
-	Vector2D	operator*(int scalar) const
-	{
-		return Vector2D(x * scalar, y * scalar);
-	}
-
-	Vector2D	operator/(int scalar) const
-	{
-		return Vector2D(x / scalar, y / scalar);
-	}
+	Vector2D(T x, T y)
+		:	Vector<2, T> { x, y }, x((*this)[0]), y((*this)[1])
+	{ }
 };
-/*
-Vector2D operator+(const Vector2D &a, const Vector2D &b)
-{ return Vector2D(a.x + b.x, a.y + b.y); } */
-
-template<typename T>
-constexpr const T	&min(const T &a, const T &b)
-{ return (a < b ? a : b); }
-
-template<typename T>
-constexpr T			&max(T &a, T &b)
-{ return (a > b ? a : b); }
-
-Vector2D	min(const Vector2D &a, const Vector2D &b)
-{ return Vector2D(min(a.x, b.x), min(a.y, b.y)); }
-
-Vector2D	max(const Vector2D &a, const Vector2D &b)
-{ return Vector2D(max(a.x, b.x), max(a.y, b.y)); }

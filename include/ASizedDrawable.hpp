@@ -7,15 +7,18 @@
 
 class ASizedDrawable:	virtual public IDrawable
 {
+public:
+	typedef Vector2D<int>	dim_t;
+
 protected:
-	Vector2D	dim;
+	dim_t	dim;
 
 public:
 	ASizedDrawable(unsigned width, unsigned height)
 		:	dim(width, height)
 	{ }
 
-	ASizedDrawable(const Vector2D &dim)
+	ASizedDrawable(const dim_t &dim)
 		:	dim(dim)
 	{ }
 
@@ -28,6 +31,6 @@ public:
 		dim.y = height;
 	}
 
-	virtual Vector2D const&	getDim() const
+	virtual dim_t const&	getDim() const
 	{ return dim; }
 };

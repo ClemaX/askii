@@ -12,18 +12,18 @@ public:
 		:	ASizedDrawable(width / Pixel::size, height), APositionedDrawable(posX, posY)
 	{ }
 
-	AImage(const Vector2D &dimensions)
+	AImage(const dim_t &dimensions)
 		:	ASizedDrawable(dimensions.x / Pixel::size, dimensions.y), APositionedDrawable()
 	{ }
 
-	AImage(const Vector2D &dimensions, const Vector2D &pos)
+	AImage(const dim_t &dimensions, const pos_t &pos)
 		:	ASizedDrawable(dimensions.x / Pixel::size, dimensions.y), APositionedDrawable(pos)
 	{ }
 
 	virtual ~AImage()
 	{ }
 
-	virtual const Pixel	&operator[](Vector2D const &pos) const = 0;
+	virtual const Pixel	&operator[](pos_t const &pos) const = 0;
 
 	virtual void		resize(unsigned newW, unsigned newH)
 	{

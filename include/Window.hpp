@@ -24,7 +24,7 @@ public:
 		:	AImage(w,h), Canvas(w, h)
 	{ }
 
-	Window(const Vector2D &dim)
+	Window(const dim_t &dim)
 		:	AImage(dim), Canvas(dim)
 	{ }
 

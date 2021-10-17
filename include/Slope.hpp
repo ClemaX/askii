@@ -52,14 +52,14 @@ public:
 		return yBuff[posX];
 	}
 
-	const Pixel	&operator[](Vector2D const &position) const
+	const Pixel	&operator[](pos_t const &position) const
 	{
 		return position.y < yBuff[position.x] ? bg : fg;
 	}
 
 	void	draw(ostream &os) const
 	{
-		Vector2D	pos;
+		pos_t	pos;
 
 		for (; pos.y < dim.y; pos.y++) {
 			for (; pos.x < dim.x; pos.x++)

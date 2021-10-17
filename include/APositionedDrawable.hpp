@@ -7,15 +7,18 @@
 
 class APositionedDrawable: virtual public IDrawable
 {
+public:
+	typedef Vector2D<int>	pos_t;
+
 protected:
-	Vector2D	pos;
+	pos_t	pos;
 
 public:
 	APositionedDrawable(unsigned x = 0, unsigned y = 0)
 		:	pos(x, y)
 	{ }
 
-	APositionedDrawable(const Vector2D &pos)
+	APositionedDrawable(const pos_t &pos)
 		:	pos(pos)
 	{ }
 
@@ -25,7 +28,7 @@ public:
 		pos.y = y;
 	}
 
-	virtual Vector2D const&	getPos() const
+	virtual pos_t const&	getPos() const
 	{ return pos; }
 
 	virtual ~APositionedDrawable()
