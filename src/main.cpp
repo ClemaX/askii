@@ -7,6 +7,10 @@
 
 #include <GameWindow.hpp>
 
+#include <PerlinNoise.hpp>
+
+#include <Plotter3D.hpp>
+
 #ifdef STDOUT_FILENO
 # define WINDOW_FILENO STDOUT_FILENO
 #else
@@ -35,32 +39,48 @@ void	resetColors()
 	std::cout << "\033[39;49m";
 }
 
+void	hideCursor()
+{
+	std::cout << "\033[?25l";
+}
+
+void	showCursor()
+{
+	std::cout << "\033[?25h";
+}
+
+void	onExit()
+{
+	resetColors();
+	clearScreen();
+	showCursor();
+}
+
 void	onInterrupt(int sig)
 {
 	(void)sig;
-	resetColors();
-	clearScreen();
+	onExit();
 	exit(0);
 }
 
 int	main()
 {
 	signal(SIGWINCH, onResize);
+	signal(SIGINT, onInterrupt);
 	onResize(SIGWINCH);
 
-
-	signal(SIGINT, onInterrupt);
+	hideCursor();
 
 	while (true)
 	{
 		clearScreen();
 		window.render();
 		window.draw(std::cout);
-		window.seek(1);
+		window.seek(1.2);
 		usleep(1000 * 100);
 	}
-	resetColors();
-	clearScreen();
+
+	onExit();
 
 	return 0;
 }

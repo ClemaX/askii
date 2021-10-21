@@ -21,4 +21,11 @@ struct Vector2D:	public Vector<2, T>
 	Vector2D(T x, T y)
 		:	Vector<2, T> { x, y }, x((*this)[0]), y((*this)[1])
 	{ }
+
+	Vector2D	&operator=(const Vector2D &vec)
+	{
+		if (&vec != this)
+			Vector<2, T>::operator=(vec);
+		return *this;
+	}
 };

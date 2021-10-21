@@ -1,13 +1,13 @@
 #pragma once
 
-#include <AColor.hpp>
+#include <Color.hpp>
 
-class BackgroundColor:	public AColor
+class BackgroundColor:	public Color
 {
 private:
 
 public:
 	BackgroundColor(uint8_t r, uint8_t g, uint8_t b, Option option = DEFAULT)
-		:	AColor(r, g, b, BACKGROUND, option)
+		:	Color(r, g, b, BACKGROUND, option)
 	{ }
 };

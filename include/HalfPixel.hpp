@@ -1,11 +1,15 @@
 #pragma once
 
-#include <AColor.hpp>
+#include <APixel.hpp>
 
 class	HalfPixel:	public APixel<1>
 {
 public:
-	HalfPixel(const AColor *color = nullptr, char content = ' ')
+	HalfPixel()
+		:	APixel()
+	{ }
+
+	HalfPixel(Color color, char content = ' ')
 		:	APixel(color, content)
 	{ }
 };

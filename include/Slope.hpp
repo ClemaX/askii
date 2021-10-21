@@ -1,69 +1,46 @@
 #pragma once
 
-#include <AImage.hpp>
-#include <cmath>
-#include <BackgroundColor.hpp>
-#include <ForegroundColor.hpp>
+#include <Plotter2D.hpp>
+#include <PerlinNoise.hpp>
 
-class Slope:	virtual public AImage
+// TODO: Use 3D noise to map characters by brightness
+
+class SlopeFunction:	public AFunction<2>
 {
-	vector<int>		yBuff;
-	Pixel			bg;
-	Pixel			fg;
+private:
+	typedef PerlinNoise<>	noise_t;
 
-	unsigned		x;
-	unsigned		offset;
-	float			slope;
-	float			bump;
-	float			bump_dist;
+	noise_t	noise;
+
+	float	slope;
+	int		offset;
+
 
 public:
-	Slope(unsigned width, unsigned height,
-		unsigned offset = 5, float slope = 0.6, float bump = 4.0, float	bump_dist = 60.0)
-		:	AImage(width, height), yBuff(width),
-			bg(new BackgroundColor(0, 12, 25)), fg(new BackgroundColor(255, 255, 255)),
-			x(1), offset(offset), slope(slope), bump(bump), bump_dist(bump_dist)
+	SlopeFunction(float slope = 0.6, int offset = 5)
+		:	noise(), slope(slope), offset(offset)
+	{ }
+
+	int	operator()(const pos_t &pos) const
+	{ return (slope * pos[0]) + noise({pos[0], 0, 0}) + offset; }
+};
+
+class Slope:	public Plotter2D
+{
+	SlopeFunction	slope;
+
+public:
+	Slope(unsigned width, unsigned height)
+		:	Plotter2D(width, height, slope)
 	{ }
 
  	void	seek(int delta)
 	{
-
-		x += delta;
-		bump_dist = 60 * (1/(1+(0.02*x)));
-		bump += 0.0000002*x;
-		if (x > 500)
-			slope = 0.7;
-	}
-
-	void	render()
-	{
-		for (int posX = 0; posX < (int)yBuff.size(); posX++)
-		{ yBuff[posX] = (slope * (posX)) + bump * sin((-posX - (float)x)/bump_dist) + offset; }
-	}
-
-	void	resize(uint newW, uint newH)
-	{
-		yBuff.resize(newW);
-		AImage::resize(newW, newH);
+		origin.x += delta;
 	}
 
 	int		getHeight(int posX) const
 	{
 		return !yBuff.empty() ? yBuff[posX] : 0;
-	}
-
-	const Pixel	&operator[](pos_t const &position) const
-	{
-		return position.y < yBuff[position.x] ? bg : fg;
-	}
-
-	void	draw(ostream &os) const
-	{
-		pos_t	pos;
-
-		for (; pos.y < dim.y; pos.y++) {
-			for (; pos.x < dim.x; pos.x++)
-				operator[](pos).draw(os);
-		}
 	}
 };

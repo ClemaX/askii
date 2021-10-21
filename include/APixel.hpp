@@ -3,7 +3,7 @@
 #include <iomanip>
 
 #include <IPixel.hpp>
-#include <AColor.hpp>
+#include <Color.hpp>
 
 #include <BackgroundColor.hpp>
 
@@ -11,17 +11,25 @@ template <u_char Size = 2>
 class APixel : public IPixel
 {
 private:
-	const AColor *color;
 	char content[Size];
 
 public:
 	static const u_char size = Size;
 
-	APixel(const AColor *color = NULL, char contentChar = ' ')
-		: color(color)
-	{
-		setContent(contentChar);
-	}
+	Color	bg;
+	Color	fg;
+
+	APixel()
+		: bg(Color::BACKGROUND), fg(Color::FOREGROUND)
+	{ setContent(' '); }
+
+	APixel(const BaseColor &bg, char contentChar = ' ')
+		: bg(bg, Color::BACKGROUND), fg(Color::FOREGROUND)
+	{ setContent(contentChar); }
+
+	APixel(const BaseColor &bg, const BaseColor &fg, char contentChar = ' ')
+		: bg(bg, Color::BACKGROUND), fg(fg, Color::FOREGROUND)
+	{ setContent(contentChar); }
 
 	virtual ~APixel(){};
 
@@ -31,25 +39,9 @@ public:
 			content[i] = contentChar;
 	}
 
-	void setColor(AColor *newColor)
-	{
-		color = newColor;
-	}
-
-	const AColor *getColor() const
-	{
-		return color;
-	}
-
-	void clearColor()
-	{
-		color = NULL;
-	}
-
 	void draw(ostream &os) const
 	{
-		if (color != NULL)
-			os << *color;
+		os << bg << fg;
 		os.write(content, size);
 	}
 
@@ -57,4 +49,23 @@ public:
 	{
 		os.write(content, size);
 	}
+
+	template<typename T>
+	APixel	&operator*=(T scalar)
+	{
+		bg *= scalar;
+		fg *= scalar;
+
+		return *this;
+	}
 };
+
+template<u_char Size, typename T>
+APixel<Size>	operator*(APixel<Size> const& pixel, T scalar)
+{
+	APixel<Size> tmp(pixel);
+
+	tmp *= scalar;
+
+	return tmp;
+}

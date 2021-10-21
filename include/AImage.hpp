@@ -23,10 +23,8 @@ public:
 	virtual ~AImage()
 	{ }
 
-	virtual const Pixel	&operator[](pos_t const &pos) const = 0;
+	virtual Pixel		operator[](pos_t const &pos) const = 0;
 
 	virtual void		resize(unsigned newW, unsigned newH)
-	{
-		ASizedDrawable::resize(newW / Pixel::size, newH);
-	}
+	{ ASizedDrawable::resize(newW / Pixel::size, newH); }
 };

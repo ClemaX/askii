@@ -14,6 +14,10 @@ protected:
 	dim_t	dim;
 
 public:
+	ASizedDrawable()
+		:	dim(0, 0)
+	{ }
+
 	ASizedDrawable(unsigned width, unsigned height)
 		:	dim(width, height)
 	{ }

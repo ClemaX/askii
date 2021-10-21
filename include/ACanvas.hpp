@@ -1,12 +1,25 @@
+#pragma once
+
 #include <AImage.hpp>
 
-class	ACanvas:	virtual public AImage
+class	ACanvas:	public AImage
 {
 private:
 	const Vector<2, int>	origin;
 
 public:
 	virtual Pixel	&operator[](pos_t const &pos) = 0;
+
+	ACanvas(uint width, uint height, uint posX = 0, uint posY = 0)
+		:	AImage(width, height, posX, posY)
+	{ }
+
+	ACanvas(const dim_t &dimensions, const pos_t &position = { })
+		:	AImage(dimensions, position)
+	{ }
+
+	virtual ~ACanvas()
+	{ }
 
 	void	renderImage(const AImage &img)
 	{
