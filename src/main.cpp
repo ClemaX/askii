@@ -63,7 +63,7 @@ void	onInterrupt(int sig)
 	exit(0);
 }
 
-int	main()
+int	main(int ac, const char **av)
 {
 	signal(SIGWINCH, onResize);
 	signal(SIGINT, onInterrupt);
@@ -76,8 +76,8 @@ int	main()
 		clearScreen();
 		window.render();
 		window.draw(std::cout);
-		window.seek(1.2);
-		usleep(1000 * 100);
+		window.seek(0.25);
+		usleep(1000 * 50);
 	}
 
 	onExit();

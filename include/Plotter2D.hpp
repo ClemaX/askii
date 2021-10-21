@@ -6,7 +6,7 @@
 class Plotter2D:	public AImage
 {
 private:
-	typedef AFunction<2, int>	function_t;
+	typedef AFunction<2, float, float>	function_t;
 
 	const function_t	&f;
 
@@ -20,15 +20,19 @@ protected:
 
 	vector<int>	yBuff;
 
+	float		zoomFactor;
+
 public:
-	Plotter2D(const dim_t &dimensions, const function_t &function)
+	Plotter2D(const dim_t &dimensions, const function_t &function, float zoomFactor = 1)
 		:	AImage(dimensions), f(function),
-			bg(Color(0, 12, 25)), fg(Color(255, 255, 255))
+			bg(Color(0, 12, 25)), fg(Color(255, 255, 255)),
+			zoomFactor(zoomFactor)
 	{ }
 
-	Plotter2D(unsigned width, unsigned height, const function_t &function)
+	Plotter2D(unsigned width, unsigned height, const function_t &function, float zoomFactor = 1)
 		:	AImage(width, height), f(function),
-			bg(Color(0, 12, 25)), fg(Color(255, 255, 255))
+			bg(Color(0, 12, 25)), fg(Color(255, 255, 255)),
+			zoomFactor(zoomFactor)
 	{ }
 
 	~Plotter2D()
@@ -39,8 +43,11 @@ public:
 		function_pos_t	pos;
 
 		for (; pos[0] < (int)yBuff.size(); pos[0]++)
-		{ yBuff[pos[0]] = f(pos); }
+		{ yBuff[pos[0]] = f({(origin[0] + pos[0]) / zoomFactor}); }
 	}
+
+	void	zoom(float factor)
+	{ zoomFactor *= factor; }
 
 	void	resize(unsigned newW, unsigned newH)
 	{

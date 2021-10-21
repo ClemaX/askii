@@ -8,21 +8,19 @@
 class	GameWindow:	public Window
 {
 private:
-	//Slope		slope;
-	//Player		player;
-	Plotter3D					plotter;
-	PerlinNoise<float>			noise;
+	Slope		slope;
+	Player		player;
 
 public:
 	GameWindow(unsigned w, unsigned h)
-		:	Window(w, h),// slope(w, h),
-			//player(slope, w / (2 * pixel_t::size)),
-			plotter(w, h, noise)
+		:	Window(w, h),
+			slope(w, h),
+			player(slope, w / (2 * pixel_t::size))
 	{
-		//player[0].setColor(new BackgroundColor(255, 0, 0));
-		pushImage(plotter);
-		//pushImage(slope);
-		//pushImage(player);
+		player[0].bg = Color(255, 0, 0);
+
+		pushImage(slope);
+		pushImage(player);
 	}
 
 	virtual ~GameWindow()
@@ -30,23 +28,20 @@ public:
 
  	void	seek(float delta)
 	{
-		plotter.zoom(delta);
-		//slope.seek(delta);
+		slope.seek(delta);
 	}
 
 	void	render()
 	{
-		//slope.render();
-		plotter.render();
-		//player.render();
+		slope.render();
+		player.render();
 		Window::render();
 	}
 
 	void	resize(unsigned width, unsigned height)
 	{
-		//slope.resize(width, height);
-		plotter.resize(width, height);
+		slope.resize(width, height);
 		Window::resize(width, height);
-		//player.move(dim.x / 2, dim.y);
+		player.move(dim.x / 2, dim.y);
 	}
 };

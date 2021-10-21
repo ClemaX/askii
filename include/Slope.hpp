@@ -5,24 +5,30 @@
 
 // TODO: Use 3D noise to map characters by brightness
 
-class SlopeFunction:	public AFunction<2>
+class SlopeFunction:	public AFunction<2, float, float>
 {
 private:
-	typedef PerlinNoise<>	noise_t;
+	typedef PerlinNoise<>			noise_t;
+	typedef typename noise_t::pos_t	noise_pos_t;
 
 	noise_t	noise;
 
 	float	slope;
+	float	noiseAmp;
 	int		offset;
 
+	float	originX;
 
 public:
-	SlopeFunction(float slope = 0.6, int offset = 5)
-		:	noise(), slope(slope), offset(offset)
+	SlopeFunction(float slope = 0.7, float noiseAmp = 15, int offset = 5)
+		:	noise(), slope(slope), noiseAmp(noiseAmp), offset(offset), originX(0)
 	{ }
 
-	int	operator()(const pos_t &pos) const
-	{ return (slope * pos[0]) + noise({pos[0], 0, 0}) + offset; }
+	float	operator()(const pos_t &pos) const
+	{ return (slope * pos[0]) + noise({originX + pos[0] / 10, 0}) * noiseAmp + offset; }
+
+	void	seek(float delta)
+	{ originX += delta; }
 };
 
 class Slope:	public Plotter2D
@@ -31,12 +37,12 @@ class Slope:	public Plotter2D
 
 public:
 	Slope(unsigned width, unsigned height)
-		:	Plotter2D(width, height, slope)
+		:	Plotter2D(width, height, slope, 1)
 	{ }
 
- 	void	seek(int delta)
+ 	void	seek(float delta)
 	{
-		origin.x += delta;
+		slope.seek(delta);
 	}
 
 	int		getHeight(int posX) const

@@ -14,7 +14,7 @@ template<typename T>
 static constexpr T	fade(T value)
 { return value * value * value * (value * (value * 6 - 15) + 10); }
 
-template<typename In = int, typename Out = float, typename F = float>
+template<typename In = float, typename Out = float, typename F = float>
 class PerlinNoise:	public AFunction<3, In, Out>
 {
 protected:
