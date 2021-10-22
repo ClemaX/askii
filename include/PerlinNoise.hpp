@@ -4,30 +4,33 @@
 #include <algorithm>
 #include <numeric>
 
-#include <AFunction.hpp>
-
-template<typename T, typename W>
-static constexpr T	lerp(T a, T b, W weight)
-{ return a + (b - a) * weight; }
+#include <ANoiseFunction.hpp>
+#include <lerp.hpp>
 
 template<typename T>
 static constexpr T	fade(T value)
 { return value * value * value * (value * (value * 6 - 15) + 10); }
 
 template<typename In = float, typename Out = float, typename F = float>
-class PerlinNoise:	public AFunction<3, In, Out>
+class PerlinNoise:	public ANoiseFunction<3, In, Out, F, unsigned>
 {
 protected:
-	typedef AFunction<3, In, Out>	function_t;
-	typedef F						float_t;
-	typedef uint8_t					hash_t;
+	typedef ANoiseFunction<3, In, Out, F>	function_t;
 
-	typedef Vector<2, float_t>		vec_f_t;
-	typedef Vector<2, int>			vec_i_t;
-	typedef Vector<2, unsigned>		vec_u_t;
-	//typedef Vector<1 << 3, int>		cube_t;
+public:
+	typedef typename function_t::seed_t		seed_t;
+	typedef typename function_t::pos_t		pos_t;
 
-	std::vector<hash_t>				p;
+protected:
+	typedef typename function_t::float_t	float_t;
+	typedef uint8_t							hash_t;
+
+	typedef typename function_t::pos_f_t	pos_f_t;
+	typedef typename function_t::pos_i_t	pos_i_t;
+	typedef typename function_t::pos_u_t	pos_u_t;
+
+	std::vector<hash_t>	p;
+	seed_t				seed;
 
 	constexpr float_t	gradient(hash_t hash, float_t x, float_t y) const
 	{
@@ -35,33 +38,39 @@ protected:
 		const float_t	u = h < 8 ? x : y;
 		const float_t	v = h < 4 ? y : h == 12 || h == 14 ? x : 0;
 
-		return ((h & 1) == 0 ? u : -u) + ((h %2) == 0 ? v : -v);
+		return ((h & 1) == 0 ? u : -u) + ((h % 2) == 0 ? v : -v);
 	}
 
 public:
-	typedef typename function_t::pos_t	pos_t;
+	PerlinNoise(seed_t seed = 1)
+		:	p(512)
+	{ setSeed(seed); }
 
-	PerlinNoise(unsigned int seed = 420)
+	void	setSeed(seed_t newSeed)
 	{
-		std::default_random_engine engine(seed);
+		if (newSeed != seed)
+		{
+			std::default_random_engine	engine(seed);
+			const std::vector<hash_t>::iterator	half(p.begin() + 256);
 
-		p.resize(256);
+			seed = newSeed;
 
-		std::iota(p.begin(), p.end(), 0);
+			std::iota(p.begin(), half, 0);
 
-		std::shuffle(p.begin(), p.end(), engine);
+			std::shuffle(p.begin(), half, engine);
 
-		p.insert(p.end(), p.begin(), p.end());
+			p.insert(half, p.begin(), half);
+		}
 	}
 
 	Out	operator()(const pos_t &pos) const
 	{
-		const vec_i_t	floored(pos.floor());
-		const vec_i_t	cubePos(floored & 255);
-		vec_f_t			relative(pos - floored);
-		vec_f_t			faded(pos - floored);
-		vec_i_t			hashA;
-		vec_i_t			hashB;
+		const pos_i_t	floored(pos.floor());
+		const pos_i_t	cubePos(floored & 255);
+		pos_f_t			relative(pos - floored);
+		pos_f_t			faded(pos - floored);
+		pos_i_t			hashA;
+		pos_i_t			hashB;
 
 		hashA[0] = p[cubePos[0]] + cubePos[1];
 		hashA[1] = p[hashA[0]];// + cubePos[2];

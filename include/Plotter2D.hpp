@@ -43,11 +43,11 @@ public:
 		function_pos_t	pos;
 
 		for (; pos[0] < (int)yBuff.size(); pos[0]++)
-		{ yBuff[pos[0]] = f({(origin[0] + pos[0]) / zoomFactor}); }
+		{ yBuff[pos[0]] = f({(origin[0] + pos[0]) * zoomFactor}); }
 	}
 
 	void	zoom(float factor)
-	{ zoomFactor *= factor; }
+	{ zoomFactor /= factor; }
 
 	void	resize(unsigned newW, unsigned newH)
 	{

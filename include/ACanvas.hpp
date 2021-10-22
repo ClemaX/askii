@@ -24,7 +24,7 @@ public:
 	void	renderImage(const AImage &img)
 	{
 
-		const pos_t	&begin = img.getPos();
+		const pos_t	begin(clamp(img.getPos(), origin, dim));
 		const pos_t	end(clamp(img.getPos() + img.getDim(), origin, dim));
 		pos_t		imgBegin(begin < origin ? -begin : origin);
 		pos_t		destPos;

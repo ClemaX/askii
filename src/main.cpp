@@ -17,16 +17,15 @@
 # define WINDOW_FILENO 1
 #endif
 
-struct winsize size;
+struct winsize	size;
 
-GameWindow	window(0,0);
+bool			wasResized = false;
+bool			shouldExit = false;
 
 void	onResize(int sig)
 {
 	(void)sig;
-	ioctl(WINDOW_FILENO, TIOCGWINSZ, &size);
-
-	window.resize(size.ws_col, size.ws_row);
+	wasResized = ioctl(WINDOW_FILENO, TIOCGWINSZ, &size) == 0;
 }
 
 void	clearScreen()
@@ -59,12 +58,13 @@ void	onExit()
 void	onInterrupt(int sig)
 {
 	(void)sig;
-	onExit();
-	exit(0);
+	shouldExit = true;
 }
 
 int	main(void)
 {
+	GameWindow	window(0,0);
+
 	signal(SIGWINCH, onResize);
 	signal(SIGINT, onInterrupt);
 	onResize(SIGWINCH);
@@ -74,9 +74,13 @@ int	main(void)
 	while (true)
 	{
 		clearScreen();
+		if (shouldExit)
+			break;
+		if (wasResized)
+			window.resize(size.ws_col, size.ws_row);
 		window.render();
 		window.draw(std::cout);
-		window.seek(0.25);
+		window.seek(1);
 		usleep(1000 * 50);
 	}
 

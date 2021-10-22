@@ -10,5 +10,7 @@ class AFunction
 public:
 	typedef Vector<Dim - 1, In> pos_t;
 
+	static const unsigned dim = Dim;
+
 	virtual Out	operator()(const pos_t &pos) const = 0;
 };
