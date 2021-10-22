@@ -5,7 +5,6 @@
 #include <IPixel.hpp>
 #include <Color.hpp>
 
-#include <BackgroundColor.hpp>
 
 template <u_char Size = 2>
 class APixel : public IPixel
