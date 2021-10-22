@@ -63,7 +63,7 @@ void	onInterrupt(int sig)
 	exit(0);
 }
 
-int	main(int ac, const char **av)
+int	main(void)
 {
 	signal(SIGWINCH, onResize);
 	signal(SIGINT, onInterrupt);
