@@ -43,7 +43,7 @@ public:
 		function_pos_t	pos;
 
 		for (; pos[0] < (int)yBuff.size(); pos[0]++)
-		{ yBuff[pos[0]] = f({(origin[0] + pos[0]) * zoomFactor}); }
+		{ yBuff[pos[0]] = f({std::floorf((origin[0] + pos[0]) * zoomFactor)}); }
 	}
 
 	void	zoom(float factor)
@@ -51,8 +51,8 @@ public:
 
 	void	resize(unsigned newW, unsigned newH)
 	{
-		yBuff.resize(newW);
 		AImage::resize(newW, newH);
+		yBuff.resize(dim.x);
 	}
 
 	Pixel	operator[](pos_t const &position) const

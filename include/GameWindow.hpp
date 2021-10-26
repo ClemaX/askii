@@ -15,7 +15,7 @@ public:
 	GameWindow(unsigned w, unsigned h)
 		:	Window(w, h),
 			slope(w, h),
-			player(slope, w / (2 * pixel_t::size))
+			player(slope, w / (3 * pixel_t::size))
 	{
 		player[0].bg = Color(255, 0, 0);
 
@@ -42,6 +42,6 @@ public:
 	{
 		slope.resize(width, height);
 		Window::resize(width, height);
-		player.move(dim.x / 2, dim.y);
+		player.move(dim.x / 3, dim.y);
 	}
 };

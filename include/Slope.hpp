@@ -23,13 +23,13 @@ private:
 	float		originX;
 
 public:
-	SlopeFunction(unsigned seed = 420, float slope = 1, float noiseAmp = 15, int offset = 5)
+	SlopeFunction(unsigned seed = 420, int slope = 1, float noiseAmp = 15, int offset = 0)
 		:	octaves(seed, 0.5, 2), slope(slope), noiseAmp(noiseAmp),
 			offset(offset), originX(0)
 	{ }
 
 	float	operator()(const pos_t &pos) const
-	{ return (slope * pos[0]) + octaves({(originX + pos[0]) / 20, 0}) * noiseAmp + offset; }
+	{ return (slope * pos[0]) + octaves({(originX + pos[0]) / 20.0f, 0}) * noiseAmp + offset; }
 
 	void	seek(float delta)
 	{ originX += delta; }
@@ -41,7 +41,7 @@ class Slope:	public Plotter2D
 
 public:
 	Slope(unsigned width, unsigned height)
-		:	Plotter2D(width, height, slope)
+		:	Plotter2D(width, height, slope, 0.5)
 	{ }
 
  	void	seek(float delta)
