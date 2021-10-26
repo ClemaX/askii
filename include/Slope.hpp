@@ -53,4 +53,9 @@ public:
 	{
 		return !yBuff.empty() ? yBuff[posX] : 0;
 	}
+
+	float	getTangent(int posX) const
+	{
+		return (yBuff[posX] - yBuff[posX + 1]);
+	}
 };

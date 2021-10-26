@@ -11,7 +11,7 @@
 using std::vector;
 
 template <typename T>
-T testFloor(T val)
+T vecFloor(T val)
 { return std::floor(val); }
 
 template <unsigned Dim = 2, typename T = int>
@@ -63,6 +63,19 @@ public:
 		return *this;
 	}
 
+	template <typename S>
+	Vector &operator+=(S scalar)
+	{
+		std::transform
+		(
+			container_t::begin(), container_t::end(),
+			vec.begin(),
+			container_t::begin(),
+			std::bind(std::placeholders::_1, scalar, std::plus<T>())
+		);
+		return *this;
+	}
+
 	Vector &operator-=(const Vector &vec)
 	{
 		std::transform
@@ -75,21 +88,36 @@ public:
 		return *this;
 	}
 
-	Vector &operator*=(const Vector &vec)
+	template <typename S>
+	Vector &operator-=(S scalar)
 	{
 		std::transform
 		(
 			container_t::begin(), container_t::end(),
 			vec.begin(),
 			container_t::begin(),
-			std::multiplies<T>()
+			std::bind(std::placeholders::_1, scalar, std::minus<T>())
+		);
+		return *this;
+	}
+
+	template <typename S>
+	Vector &operator*=(S scalar)
+	{
+		std::transform
+		(
+			container_t::begin(), container_t::end(),
+			vec.begin(),
+			container_t::begin(),
+			std::bind(std::placeholders::_1, scalar, std::multiplies<T>())
 		);
 		return *this;
 	}
 
 	Vector &operator/=(const Vector &vec)
 	{
-		std::transform(
+		std::transform
+		(
 			container_t::begin(), container_t::end(),
 			vec.begin(),
 			container_t::begin(),
@@ -98,6 +126,18 @@ public:
 		return *this;
 	}
 
+	template <typename S>
+	Vector &operator/=(S scalar)
+	{
+		std::transform
+		(
+			container_t::begin(), container_t::end(),
+			vec.begin(),
+			container_t::begin(),
+			std::bind(std::placeholders::_1, scalar, std::divides<T>())
+		);
+		return *this;
+	}
 
 	Vector &operator%=(const Vector &vec)
 	{
@@ -110,21 +150,52 @@ public:
 		return *this;
 	}
 
+	template <typename S>
+	Vector &operator/=(S scalar)
+	{
+		std::transform
+		(
+			container_t::begin(), container_t::end(),
+			vec.begin(),
+			container_t::begin(),
+			std::bind(std::placeholders::_1, scalar, std::modulus<T>())
+		);
+		return *this;
+	}
+
+
 	constexpr T	sum() const
 	{ return std::accumulate(container_t::begin(), container_t::end(), T()); }
 
 	Vector	floor() const
 	{
-		Vector<Dim, T> tmp;
+		Vector<Dim, T>	tmp;
 
-		std::transform(
+		std::transform
+		(
 			container_t::begin(), container_t::end(),
 			tmp.begin(),
-			testFloor<T>
+			vecFloor<T>
 		);
 
 		return tmp;
 	}
+
+	float_t	magnitude() const
+	{
+		return std::sqrtf
+		(
+			std::inner_product
+			(
+				container_t::begin(), container_t::end(),
+				container_t::begin(),
+				0
+			)
+		);
+	}
+
+	Vector	normalize() const
+	{ return operator/(magnitude()); }
 };
 
 template <unsigned Dim, typename T, typename O>

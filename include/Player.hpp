@@ -5,21 +5,30 @@
 
 class	Player:	public Canvas<>
 {
-	const Slope	&slope;
+public:
+	typedef Vector2D<float_t>	force_t;
 
+private:
+	const Slope	&slope;
+	force_t		velocity;
+	force_t		acceleration;
+	float		mass;
 
 public:
 	Player(const Slope &slope, unsigned posX)
-		:	Canvas(2, 2, posX, slope.getHeight(posX)), slope(slope)
+		:	Canvas(6, 3, posX, slope.getHeight(posX)), slope(slope), mass(10)
 	{ }
 
-	void	render()
+	void	render(float_t delta)
 	{
-		int	minHeight = slope.getHeight(pos.x) - 1;
-
-		if (pos.y < minHeight)
-			pos.y++;
-		if (pos.y > minHeight)
-			pos.y = minHeight;
+		velocity += acceleration;
+		acceleration *= 0;
+		pos.y += velocity.y;
 	}
+
+	force_t const	&getVelocity() const
+	{ return velocity; }
+
+	void	applyForce(force_t force)
+	{ acceleration += force; }
 };
