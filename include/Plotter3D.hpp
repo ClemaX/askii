@@ -61,13 +61,4 @@ public:
 
 	Pixel	operator[](pos_t const &position) const
 	{ return zBuff.empty() ? fg : fg * zBuff[position.y * dim.x + position.x]; }
-
-	void	draw(ostream &os) const
-	{
-		pos_t	pos;
-
-		for (; pos.y < dim.y; pos.y++)
-			for (pos.x = 0; pos.x < dim.x; pos.x++)
-				operator[](pos).draw(os);
-	}
 };

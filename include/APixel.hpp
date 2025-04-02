@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iomanip>
-
 #include <IPixel.hpp>
 #include <Color.hpp>
 

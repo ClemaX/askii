@@ -27,4 +27,13 @@ public:
 
 	virtual void		resize(unsigned newW, unsigned newH)
 	{ ASizedDrawable::resize(newW / Pixel::size, newH); }
+
+	void	draw(ostream &os) const
+	{
+		pos_t	pos;
+
+		for (; pos.y < dim.y; pos.y++)
+			for (pos.x = 0; pos.x < dim.x; pos.x++)
+				operator[](pos).draw(os);
+	}
 };

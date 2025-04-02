@@ -1,8 +1,6 @@
 #pragma once
 
 #include <ANoiseFunction.hpp>
-#include <functional>
-#include <numeric>
 
 template<typename Fun, unsigned N, typename F = float>
 class Octaves:	public Fun

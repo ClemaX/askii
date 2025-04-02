@@ -11,7 +11,7 @@ struct	IDrawable
 	friend std::ostream& operator<<(std::ostream& os, const IDrawable& drawable);
 };
 
-ostream &operator<<(ostream &os, const IDrawable &drawable)
+inline ostream &operator<<(ostream &os, const IDrawable &drawable)
 {
 	drawable.draw(os);
 	return os;

@@ -3,8 +3,6 @@
 #include <Vector2D.hpp>
 #include <IDrawable.hpp>
 
-#include <iostream>
-
 class ASizedDrawable:	virtual public IDrawable
 {
 public:
