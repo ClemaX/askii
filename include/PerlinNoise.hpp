@@ -48,19 +48,16 @@ public:
 
 	void	setSeed(seed_t newSeed)
 	{
-		if (newSeed != seed)
-		{
-			std::default_random_engine	engine(seed);
-			const std::vector<hash_t>::iterator	half(p.begin() + 256);
+		std::default_random_engine	engine(newSeed);
+		const std::vector<hash_t>::iterator	half(p.begin() + 256);
 
-			seed = newSeed;
+		seed = newSeed;
 
-			std::iota(p.begin(), half, 0);
+		std::iota(p.begin(), half, 0);
 
-			std::shuffle(p.begin(), half, engine);
+		std::shuffle(p.begin(), half, engine);
 
-			p.insert(half, p.begin(), half);
-		}
+		p.insert(half, p.begin(), half);
 	}
 
 	Out	operator()(const pos_t &pos) const
