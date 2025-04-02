@@ -10,3 +10,7 @@ obj/
 # VSCode
 .vscode/*
 !.vscode/c_cpp_properties.json
+
+# clangd
+.cache/
+compile_commands.json
