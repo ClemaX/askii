@@ -80,8 +80,8 @@ int	main(void)
 			window.resize(size.ws_col, size.ws_row);
 		window.render();
 		window.draw(std::cout);
-		window.seek(2);
-		usleep(1000 * 50);
+		window.seek(1);
+		usleep(1000 * 1000 / 30);
 	}
 
 	onExit();

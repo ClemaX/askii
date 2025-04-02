@@ -23,7 +23,7 @@ private:
 	float		originX;
 
 public:
-	SlopeFunction(unsigned seed = 420, int slope = 1, float noiseAmp = 15, int offset = 0)
+	SlopeFunction(unsigned seed = 420, int slope = 1, float noiseAmp = 7.5, int offset = 0)
 		:	octaves(seed, 0.5, 2), slope(slope), noiseAmp(noiseAmp),
 			offset(offset), originX(0)
 	{ }
@@ -41,7 +41,7 @@ class Slope:	public Plotter2D
 
 public:
 	Slope(unsigned width, unsigned height)
-		:	Plotter2D(width, height, slope, 0.5)
+		:	Plotter2D(width, height, slope)
 	{ }
 
  	void	seek(float delta)
